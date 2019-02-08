@@ -11,7 +11,10 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.platzi.ereservation.resource.vo.ClienteVo;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Hipolito
@@ -37,5 +40,20 @@ public class Cliente {
 	
 	@OneToMany(mappedBy="cliente")
 	private Set<Reservacion> reservaciones;
+	
+	@NoArgsConstructor
+	  public static class NoArgsExample {
+	  }
+	
+	
+	public Cliente(ClienteVo clienteVo) {
+		this.idCliente =  clienteVo.getIdCliente();
+		this.nombre = clienteVo.getNombre();
+		this.apellido = clienteVo.getApellido();
+		this.identificacion = clienteVo.getIdentificacion();
+		this.direccion = clienteVo.getDireccion();
+		this.telefono = clienteVo.getTelefono();
+		this.email = clienteVo.getEmail();
+	}
 	
 }
