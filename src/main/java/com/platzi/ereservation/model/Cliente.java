@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "cliente")
 @Data
+@NoArgsConstructor
 @NamedQuery(name="Cliente.findByIdentificacion", query="SELECT c FROM Cliente c WHERE c.identificacion = ?1")
 public class Cliente {
 	
@@ -41,12 +42,8 @@ public class Cliente {
 	@OneToMany(mappedBy="cliente")
 	private Set<Reservacion> reservaciones;
 	
-	@NoArgsConstructor
-	  public static class NoArgsExample {
-	  }
-	
-	
 	public Cliente(ClienteVo clienteVo) {
+		super();
 		this.idCliente =  clienteVo.getIdCliente();
 		this.nombre = clienteVo.getNombre();
 		this.apellido = clienteVo.getApellido();
