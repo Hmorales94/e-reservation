@@ -13,7 +13,6 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import lombok.Data;
 
 /**

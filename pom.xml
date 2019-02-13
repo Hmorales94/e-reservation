@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.2.RELEASE</version>
+		<version>2.1.1.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.platzi</groupId>
@@ -20,6 +20,7 @@
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -59,9 +60,7 @@
 			<artifactId>springfox-swagger2</artifactId>
 			<version>2.7.0</version>
 		</dependency>
-		<!-- /Swagger -->
 
-		<!-- Swagger -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
@@ -69,6 +68,25 @@
 		</dependency>
 		<!-- /Swagger -->
 
+		<!-- Security -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>2.1.1.RELEASE</version>
+		</dependency>
+
+
+		<!-- /Security -->
+
+		<!-- Thymeleaf -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<version>2.1.1.RELEASE</version>
+		</dependency>
+		<!-- /Thymeleaf -->
 
 		<!-- Guava -->
 		<dependency>
@@ -81,7 +99,48 @@
 	</dependencies>
 
 	<build>
+		<finalName>e-reservation</finalName>
 		<plugins>
+			<!-- Docker -->
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.27.2</version>
+				<configuration>
+					<images>
+						<image>
+							<name>hipolio/${project.build.finalName}</name>
+							<build>
+								<from>openjdk:latest</from>
+								<entryPoint>java -Dspring.profiles.active=prod -jar /Users/Hipoliti/application/${project.build.finalName}.jar</entryPoint>
+								<assembly>
+									<basedir>/Users/Hipoliti/application/</basedir>
+									<descriptorRef>artifact</descriptorRef>
+									<inline>
+										<id>assembly</id>
+										<files>
+											<file>
+												<source>target/${project.build.finalName}.jar</source>
+											</file>
+										</files>
+									</inline>
+								</assembly>
+								<tags>
+									<tag>latest</tag>
+								</tags>
+								<ports>
+									<port>8080</port>
+								</ports>
+							</build>
+							<run>
+								<namingStrategy>alias</namingStrategy>
+							</run>
+							<alias>${project.build.finalName}</alias>
+						</image>
+					</images>
+				</configuration>
+			</plugin>
+			<!-- /Docker -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
